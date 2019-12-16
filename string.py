@@ -4,6 +4,7 @@ import cv2
 import easygui as gui
 import sys
 import os
+from matplotlib import pyplot as plt
 import stdnum.util
 from stdnum.eu import banknote
 from PIL import Image
@@ -26,11 +27,11 @@ def start_gui():
 def end_gui(temp_file,serial_number,fake):
 	#Concatenate the strings together for the result
     if fake==1:
-        end_string= " -- and is an invalid serial number"
+        end_string= "  and is an invalid serial number"
     else:
-        end_string=" -- and is a valid number"
+        end_string="  and is a valid number"
 
-    program_reply=("The Serial Number is: -- "+ serial_number + end_string)
+    program_reply=("The Serial Number is: "+ serial_number + end_string)
 	#Box choices in GUI, requires an array
     box_choices =["Main Menu","Exit Program"]
 	#Display buttonbox, with image,and choices
@@ -87,13 +88,20 @@ def opening(image):
     return cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)
 
 def main():
+    #temp variables
     fake=0
     temp_file = "temp_image.jpg"
     
+    #Getting user input and saving an original copy of it
     image = start_gui()
     original = image
+    #Normalizing the image
     normalized = cv2.normalize(image,None,0,255,cv2.NORM_MINMAX)
+    #Convert to HSV
     hsv = cv2.cvtColor(normalized, cv2.COLOR_BGR2HSV)
+    
+    #Array for range for €50 note
+    #And bitwise mask
     lower = np.array([0, 0, 13])
     upper = np.array([179, 244, 161])
     mask = cv2.inRange(hsv, lower, upper)
@@ -106,7 +114,9 @@ def main():
     half_x = int(W/2)
     half_y = int(H/2)
     crop_result = result[0:half_y,half_x:W]    
+    h,s,v = cv2.split(hsv)
     
+    #Temp file for ocr
     cv2.imwrite(temp_file, crop_result) 
     # Include tesseract executable in your path
     pytesseract.pytesseract.tesseract_cmd = r"c:\Program Files\Tesseract-OCR\tesseract.exe"
@@ -114,12 +124,23 @@ def main():
     
     # Create an image object of PIL library
     image = Image.open(temp_file)
-    # pass image into pytesseract module
-    # pytesseract is trained in many languages
     serial_number = pytesseract.image_to_string(image, lang='eng')
-    # Print the text    
     
-    print(serial_number)
+    original = convert_bgr2rgb(original)
+    plt.subplot(2,2,1)
+    plt.imshow(original)
+    
+    plt.subplot(2,2,2)
+    plt.imshow(s)
+    
+    plt.subplot(2,2,3)
+    plt.imshow(result)
+    
+    plt.subplot(2,2,4)
+    plt.imshow(crop_result)
+    
+    plt.show()
+    
     
     try:
         banknote.validate(serial_number)
