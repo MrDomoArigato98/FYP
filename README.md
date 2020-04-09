@@ -7,8 +7,7 @@ missing libraries that are seen on top in the python files.
 Stdnum, datetime, pyteserract and psycopg2 may be missing from Scientific Anaconda. 
 
 They can be imported as in the following example in powershell:
-
-*Pip install python-stdnum
+/*Pip install python-stdnum*/
 
 *Pip install pytesseract
 
