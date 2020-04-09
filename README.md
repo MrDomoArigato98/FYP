@@ -9,7 +9,8 @@ Stdnum, datetime, pyteserract and psycopg2 may be missing from Scientific Anacon
 They can be imported as in the following example in powershell:
 
 Pip install python-stdnum
-Pip install pytesseract 
+
+Pip install pytesseract
 
 Authenti-Note is launched once main.py is started. 
 Make sure the folders with images are in a directory called Banknotes, 
