@@ -77,8 +77,8 @@ def feature_extract(test_image,folder):
     original_2_gray = clahe(original_2_gray)
     test_gray       = clahe(test_gray)
     
-    cv2.imshow("test", test_gray)
-    cv2.imshow("test1", original_1_gray)
+    # cv2.imshow("test", test_gray)
+    # cv2.imshow("test1", original_1_gray)
     cv2.waitKey(0)
     
     orb = cv2.ORB_create(nfeatures=500)
