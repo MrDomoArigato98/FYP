@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Feb 18 14:27:24 2020
+Sourced and based on: https://www.postgresqltutorial.com/postgresql-python/
 Database setup Insert, connect and select
 @author: Dominik
 """
