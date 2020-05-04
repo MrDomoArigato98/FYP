@@ -82,21 +82,16 @@ def feature_extract(test_image,folder):
     cv2.waitKey(0)
     
     orb = cv2.ORB_create(nfeatures=500)
-    
-    #Original images calculation and input image calculation
+   
     original_1_kp, original_1_desc = orb.detectAndCompute(original_1_gray, None)
     original_2_kp, original_2_desc = orb.detectAndCompute(original_2_gray, None)
     input_kp, input_desc = orb.detectAndCompute(test_gray, None)
 
-    # Create a Brute Force Matcher object.
     bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck = True)
     
-    # Perform the matching between the ORB descriptors of the training image and the test image
     matches1 = bf.match(original_1_desc, input_desc)
     matches2 = bf.match(original_2_desc, input_desc)
-    
-    
-    # The matches with shorter distance are the ones we want.
+    #short distance matches
     matches1 = sorted(matches1, key = lambda x : x.distance)
     matches2 = sorted(matches2, key = lambda x : x.distance)
     
@@ -112,7 +107,6 @@ def feature_extract(test_image,folder):
     average = len(matches1) + len(matches2)
     average=average/2
     
-    # Print total number of matching points between the training and query images
     print("\nNumber of Matching Keypoints - Original 1 and Test image ", len(matches1))
     print("\nNumber of Matching Keypoints - Original 2 and Test image ", len(matches2))
     
