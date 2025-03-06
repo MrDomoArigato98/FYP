@@ -11,8 +11,8 @@ import psycopg2
 
 def database_conn():
     username="postgres"
-    password ="Tomasz77"
-    host="35.195.23.66"
+    password =""
+    host=""
     database ="postgres"
     
     global connection
